@@ -1,0 +1,53 @@
+{
+  "rules": {
+    "users": {
+      "$user_id": {
+        // grants write access to the owner of this user account
+        // whose uid must exactly match the key ($user_id)
+        ".write": "$user_id === auth.uid",
+        "email": {
+          // an email is only allowed in the profile if it matches
+          // the auth token's email account (for Google or password auth)
+          ".validate": "newData.val() === auth.email"
+        }
+      }
+    },
+    "containers": {
+      ".read": "auth !== null",
+      // haven't locked down writes yet, but you do need to be authenticated
+      ".write": "auth !== null",
+      "$container_id": {
+        // a valid container must have attributes "owner", "parent" (may be false)
+        // and "name"
+        ".validate": "newData.hasChildren(['owner', 'parent', 'name'])",
+        "owner": {
+          ".validate": "root.child('/users/' + newData.val()).exists()"
+        },
+        "parent": {
+          ".validate": "newData.val() === false || root.child('containers/' + newData.val() + '/owner/' + auth.uid).exists()"
+        },
+        "name": {
+          ".validate": "newData.isString()"
+        },
+        "description": {
+          ".validate": "newData.isString() || newData.val() === null"
+        }
+      }
+    },
+    "objects": {
+      ".read": "auth !== null",
+      // haven't locked down writes yet, but you do need to be authenticated
+      ".write": "auth !== null",
+      "$object_id": {
+        // a valid container must have attributes "container" and "data"
+        ".validate": "newData.hasChildren(['container', 'data'])",
+        "container": {
+          ".validate": "root.child('/containers/' + newData.val()).exists()"
+        },
+        "data": {
+          ".validate": "newData.exists()"
+        }
+      }
+    }
+  }
+}
