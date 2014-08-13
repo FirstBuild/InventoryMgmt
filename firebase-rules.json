@@ -2,13 +2,21 @@
   "rules": {
     "users": {
       "$user_id": {
+        ".read": "$user_id === auth.uid",
         // grants write access to the owner of this user account
         // whose uid must exactly match the key ($user_id)
         ".write": "$user_id === auth.uid",
-        "email": {
-          // an email is only allowed in the profile if it matches
-          // the auth token's email account (for Google or password auth)
+        ".validate": "newData.hasChildren(['provider', 'displayName'])",
+        "displayName": {
           ".validate": "newData.val() === auth.email"
+        },
+        "provider": {
+          ".validate": "newData.val() == 'password'"
+        },
+        "root_containers": {
+          "$container": {
+            ".validate": "newData.val() === true && root.child('containers/' + $container).exists()"
+          }
         }
       }
     },
@@ -17,20 +25,30 @@
       // haven't locked down writes yet, but you do need to be authenticated
       ".write": "auth !== null",
       "$container_id": {
-        // a valid container must have attributes "owner", "parent" (may be false)
-        // and "name"
+        // a valid container must have attributes "owner", "parent", and "name"
         ".validate": "newData.hasChildren(['owner', 'parent', 'name'])",
         "owner": {
           ".validate": "root.child('/users/' + newData.val()).exists()"
         },
-        "parent": {
-          ".validate": "newData.val() === false || root.child('containers/' + newData.val() + '/owner/' + auth.uid).exists()"
-        },
         "name": {
           ".validate": "newData.isString()"
         },
+        "parent": {
+          ".validate": "newData.val() === false || root.child('containers/' + newData.val()).exists()"
+        },
+        // optional attributes below
+        "children": {
+          "$child_id": {
+            ".validate": "root.child('containers/' + $child_id).exists()"
+          }
+        },
         "description": {
           ".validate": "newData.isString() || newData.val() === null"
+        },
+        "objects": {
+          "$object_id": {
+            ".validate": "root.child('objects/' + $object_id).exists() && newData.val() === true"
+          }
         }
       }
     },
@@ -42,7 +60,7 @@
         // a valid container must have attributes "container" and "data"
         ".validate": "newData.hasChildren(['container', 'data'])",
         "container": {
-          ".validate": "root.child('/containers/' + newData.val()).exists()"
+          ".validate": "root.child('containers/' + newData.val()).exists()"
         },
         "data": {
           ".validate": "newData.exists()"
