@@ -8,18 +8,18 @@ function initAuth(ref) {
     if (error) {
       switch(error.code) {
         case "INVALID_USER":
-
+          // error handler here
         case "INVALID_EMAIL":
-
+          // error handler here
         case "INVALID_PASSWORD":
-
+          // error handler here
         default:
       }
     }
     else if(user) {
       // user logged in
       uid = user.uid;
-      userRef = imRef.child('users').child(user.uid);
+      userRef = ref.child('users').child(user.uid);
       userRef.once('value', function(snap) {
         if (snap.val() === null) {
           // create a user profile if it doesn't already exist
@@ -35,13 +35,30 @@ function initAuth(ref) {
   });
 }
 
-/* example for adding an item to the grocery list (assumes you've already looked up the grocery list id)
-var newObj = imRef.child('objects').push({container: '-JUApygMasdbiSlvV-0b', data: 'Loaf of wheat bread'});
-// you'd probably already have the value for container, given that you just used it,
-// but this shows how to read the data just written
-newObj.once('value', function(snap) { container = snap.val()['container'] });
-contRef = imRef.child('containers/' + container + '/objects');
-var val = {};
-val[newObj.name()] = true;
-contRef.update(val);
-*/
+function addGroceryListItem(containerRef, data) {
+  // contstruct the item to be added to the /objects tree
+  var glItem = {
+    container: containerRef.name(),
+    data: data
+  };
+  // add it to the tree, and capture a ref to it
+  var newObj = containerRef.root().child('objects').push(glItem);
+  if (newObj.name().length > 0) {
+    // create an object to add to the objects index for the container
+    // if we successfully created the new object
+    var containerIndexValue = {};
+    containerIndexValue[newObj.name()] = true;
+    // update() here so we don't overwrite other items in the index
+    containerRef.child('objects').update(containerIndexValue);
+  }
+}
+
+function removeGroceryListItem(ref) {
+  // get the value of our item ref
+  ref.once('value', function(v) {
+    // find the container so we can update its /objects index
+    var c = v.val()['container'];
+    ref.root().child('containers/'+ c + '/objects/' + ref.name()).remove();
+    ref.remove();
+  });
+}
