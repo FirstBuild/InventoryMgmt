@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="icon" href="../../favicon.ico">
+
+    <title>1B Grocery List Manager</title>
+
+    <!-- Bootstrap core CSS -->
+    <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="cover.css" rel="stylesheet">
+
+    <!-- Just for debugging purposes. Don't actually copy these 2 lines! -->
+    <!--[if lt IE 9]><script src="/vendor/bootstrap/js/ie8-responsive-file-warning.js"></script><![endif]-->
+    <script src="/vendor/bootstrap/js/ie-emulation-modes-warning.js"></script>
+
+    <!-- IE10 viewport hack for Surface/desktop Windows 8 bug -->
+    <script src="/vendor/bootstrap/js/ie10-viewport-bug-workaround.js"></script>
+
+    <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+  </head>
+
+  <body>
+
+    <div class="site-wrapper">
+
+      <div class="site-wrapper-inner">
+
+        <div id="container" class="cover-container">
+
+          <div class="masthead clearfix">
+            <div class="inner">
+              <h3 class="masthead-brand">FirstBuild</h3>
+              <ul class="nav masthead-nav">
+                <li class="active"><a href="#">Home</a></li>
+                <li id='profile-link'><a href="#">Not Logged In</a></li>
+              </ul>
+            </div>
+          </div>
+
+					<div id='signin-form' class="inner cover">
+			      <form class="form-signin" role="form">
+			        <h2 class="form-signin-heading">Please sign in</h2>
+			        <input type="email" class="form-control" placeholder="Email address" required autofocus>
+			        <input type="password" class="form-control" placeholder="Password" required>
+			        <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+			      </form>
+            <h1 class="cover-heading">Grocery List Manager</h1>
+            <p class="lead">Welcome to FirstBuild's Grocery List Manager. This is a demo app for working with Firebase on the FirstBuild Inventory Management project.</p>
+            <p class="lead">
+              <a href="https://firstbuild.com/firstbuild/inventory-management-platform/" class="btn btn-lg btn-default">Learn more</a>
+            </p>
+          </div>
+
+					<!-- divs for our list of lists, and our individual grocery list start hidden -->
+					<div class="inner cover" id="lists" style="display: none">
+					</div>
+
+					<div class="inner cover" id="mylist" style="display: none">
+					</div>
+
+          <div class="mastfoot">
+            <div class="inner">
+              <p>Cover template for <a href="http://getbootstrap.com">Bootstrap</a>, by <a href="https://twitter.com/mdo">@mdo</a>.</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+	<!-- jQuery and Bootstrap -->
+	<script src="/vendor/jquery-1.11.1.min.js"></script>
+	<script src="/vendor/bootstrap/js/bootstrap.min.js"></script>
+	<!-- Firebase -->
+	<script src="https://cdn.firebase.com/js/client/1.0.19/firebase.js"></script>
+	<script src="https://cdn.firebase.com/js/simple-login/1.6.2/firebase-simple-login.js"></script>
+	<!-- Our application -->
+	<script src="/js/main.js"></script>
+	<script src="/js/lists.js"></script>
+	<script src="/js/items.js"></script>
+  </body>
+</html>
