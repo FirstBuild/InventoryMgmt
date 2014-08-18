@@ -50,7 +50,27 @@ function displayGroceryList(element, name) {
     }
     else {
       element.prepend('<h2>' + v.val()['name'] + '</h2>');
-      element.append('<h4>' + v.val()['description'] + '</h4>');
+      if(v.val()['description'] != null) {
+        element.append('<h4>' + v.val()['description'] + '</h4>');
+      }
+      element.append("<table id='list_table'></table>")
+      // call function to setup events for dynamically updating the list
+      displayGroceryListItems(ref, $('#list_table'));
     }
   });
+}
+
+function displayGroceryListItems(list, element) {
+  var groceryItems = list.child('objects/')
+
+  groceryItems.on('child_added', function(snap) {
+    InventoryManager['imRef'].child('objects/' + snap.name()).once('value', function(dataSnapshot) {
+      element.append("<tr id='" + dataSnapshot.val()['container'] + "'><td>" + dataSnapshot.val()['data'] + '</td></tr>');
+    });
+  });
+
+  groceryItems.on('child_removed', function(snap) {
+    console.log(snap);
+  });
+
 }
