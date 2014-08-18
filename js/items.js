@@ -53,7 +53,7 @@ function displayGroceryList(element, name) {
       if(v.val()['description'] != null) {
         element.append('<h4>' + v.val()['description'] + '</h4>');
       }
-      element.append("<table id='list_table'></table>")
+      element.append("<table id='list_table'><thead><tr><th>&nbsp;</th><th>Item</th></tr></thead></table>");
       // call function to setup events for dynamically updating the list
       displayGroceryListItems(ref, $('#list_table'));
     }
@@ -61,11 +61,11 @@ function displayGroceryList(element, name) {
 }
 
 function displayGroceryListItems(list, element) {
-  var groceryItems = list.child('objects/')
+  var groceryItems = list.child('objects/');
 
   groceryItems.on('child_added', function(snap) {
     InventoryManager['imRef'].child('objects/' + snap.name()).once('value', function(dataSnapshot) {
-      element.append("<tr id='" + dataSnapshot.name() + "'><td>" + dataSnapshot.val()['data'] + '</td></tr>');
+      element.append("<tr id='" + dataSnapshot.name() + "'><td>" + dataSnapshot.val()['checked'] +"</td><td>"+ dataSnapshot.val()['data'] + '</td></tr>');
     });
   });
 

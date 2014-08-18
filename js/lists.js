@@ -13,6 +13,7 @@ function newList(data) {
     return { success: false, message: 'newList requires an object as input' }
   }
   var newChild = InventoryManager['imRef'].child('containers').push(data);
+  newChild.setPriority(data['owner']); //simplify finding all containers owned by uid
   if (data['parent'] !== false) {
     var parentRef = InventoryManager['imRef'].child('containers/' + data['parent'] + '/children');
     var update = {};
