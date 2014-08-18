@@ -65,12 +65,13 @@ function displayGroceryListItems(list, element) {
 
   groceryItems.on('child_added', function(snap) {
     InventoryManager['imRef'].child('objects/' + snap.name()).once('value', function(dataSnapshot) {
-      element.append("<tr id='" + dataSnapshot.val()['container'] + "'><td>" + dataSnapshot.val()['data'] + '</td></tr>');
+      element.append("<tr id='" + dataSnapshot.name() + "'><td>" + dataSnapshot.val()['data'] + '</td></tr>');
     });
   });
 
   groceryItems.on('child_removed', function(snap) {
-    console.log(snap);
+    // remove from DOM
+    $('#' + snap.name()).remove();
   });
 
 }
