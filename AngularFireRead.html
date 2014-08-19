@@ -1,0 +1,27 @@
+<html ng-app="fbIM">
+  <head>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.0-beta.17/angular.min.js"></script>
+    <script src="https://cdn.firebase.com/js/client/1.0.15/firebase.js"></script>
+    <script src="https://cdn.firebase.com/libs/angularfire/0.8.0/angularfire.min.js"></script>
+  </head>
+  <body ng-controller="IMController">
+    <div>
+      <header>Containers</header>
+      <ul id='example-messages'>
+        <li ng-repeat='container in containers'>
+          <strong>Name : </strong>{{container.name}}<br>
+          <strong>Owner : </strong>{{container.owner}}
+        </li>
+      </ul>
+    </div>
+    <script>
+      var fbIM = angular.module("fbIM", ["firebase"]);
+      fbIM.controller('IMController', ['$scope', '$firebase',
+        function($scope, $firebase) {
+          var ref = new Firebase("https://flickering-fire-3648.firebaseio.com/containers");
+          $scope.containers = $firebase(ref).$asArray();
+        }
+      ]);
+    </script>
+  </body>
+</html>
