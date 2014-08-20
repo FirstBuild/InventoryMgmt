@@ -30,6 +30,7 @@ As our first responsibility was to deliver the infrastructure to support Invento
     4. Excellent documentation and tutorials to help developers get started
 
 
+###### Note
 > We have designed the infrastructure to push the intelligence to the components. We designed it this way in order to provide infrastructure that could support a very broad use-case of Inventory Management that hopefully in the future will extend into areas that we can’t predict today. We debated on whether we should provide an intelligent API that allowed the clients to stay fairly dumb, but kept coming back to the need for the infrastructure to stay very general to support the broad use case and adapt to any component.
 
 ### Firebase
