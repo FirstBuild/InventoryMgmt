@@ -10,7 +10,7 @@ We have reserved this repository to store code and documentation that applies to
 Our initial focus was on delivering the shared infrastructure components that would support and facilitate a grand concept of Inventory Management for the home. Our plan was to deliver a first pass offering for this shared infrastruture with the intention of the community developing the true functionality around Inventory Management. We have called these community developed functionality **components**. These components leverage the centralized infrastructure to build an Inventory Management ecosystem driven by the community. Below is a high-level diagram of our vision:
 
 
-![Output Map]()
+![Output Map](https://raw.githubusercontent.com/FirstBuild/InventoryMgmt/master/images/Inventory-Management-High-Level.jpg)
 
 ## Infrastructure
 
@@ -36,7 +36,7 @@ After reviewing several technologies, we landed on [Firebase](https://www.fireba
    1. [Open Datasets](https://www.firebase.com/docs/open-data/) that developers could leverage in their components
    2. Built in security model including hooks into [OAuth providers](https://www.firebase.com/docs/web/guide/user-auth.html)
    3. [Libraries/APIs](https://www.firebase.com/docs/) in almost every modern language
-   4. Great [documentation](https://www.firebase.com/docs/) and tutorials
+   4. Extensive [documentation](https://www.firebase.com/docs/) and tutorials
    5. Schema-less JSON based data-store
    6. Client-focused, putting the power in the hands of the developer (you!)
    7. Supports free hacker accounts that will allow developers to prototype new ideas
