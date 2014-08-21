@@ -8,6 +8,9 @@
         ".write": "$user_id === auth.uid",
         ".validate": "newData.hasChildren(['provider', 'displayName'])",
         "displayName": {
+          ".validate": "newData.isString()"
+        },
+        "email": {
           ".validate": "newData.val() === auth.email"
         },
         "provider": {
