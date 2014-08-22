@@ -57,7 +57,7 @@ The *containers* node of the Firebase tree holds data about all *container* inst
   "$container_id": {
     // a valid container must have attributes "owners", "parent", and "name"
     ".validate": "newData.hasChildren(['owners', 'parent', 'name'])",
-    "owner": {
+    "owners": {
       "$owner_id": {
         ".validate": "root.child('users/' + $owner_id).exists() && newData.val() === true"
       }
@@ -90,12 +90,12 @@ As you can see from the above, each *containers* instance must have children (at
 An example of a *containter* may be a grocery list, which has a parent *container* of a refrigerator, which has a parent *container* of a home. Note that the grocery list has multiple owners, so either user would be able to add items to the list. This would be represented as follows:
 ```json
 {
- "containers" : {
+  "containers" : {
     "-JUApyasdkfj34r90da4" : {  
       "name" : "Ryan's Home",
       "owners" : {
         "simplelogin:2" : true
-      }
+      },
       "parent" : false,
       "children" : {
         "-JUApygasdfasdasdfda" : true
@@ -105,7 +105,7 @@ An example of a *containter* may be a grocery list, which has a parent *containe
       "name" : "Ryan's Refrigerator",
       "owners" : {
         "simplelogin:2" : true
-      }
+      },
       "parent" : "-JUApyasdkfj34r90da4",
       "children" : {
         "-JUApygMasdbiSlvV-0b" : true
@@ -116,7 +116,7 @@ An example of a *containter* may be a grocery list, which has a parent *containe
       "owners" : {
         "simplelogin:1" : true,
         "simplelogin:2" : true
-      }
+      },
       "parent" : "-JUApygasdfasdasdfda",
       "objects" : {
         "-JUAwerASDvas-1g12j" : true,
@@ -165,7 +165,7 @@ If you were to create a web based grocery list, this would be a *component* in t
       "name" : "Ryan's Grocery List",
       "owners" : {
         "simplelogin:2" : true # owner of this container. this is a reference to a child in the /users node
-      }
+      },
       "parent" : false, # If this container has a parent container, this will be the unique ID of that parent container
       "objects" : { # objects in this container act as a reference to the actual object data
         "-JUAwerASDvas-1g12j" : true,
