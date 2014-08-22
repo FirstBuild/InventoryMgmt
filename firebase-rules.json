@@ -28,10 +28,12 @@
       // haven't locked down writes yet, but you do need to be authenticated
       ".write": "auth !== null",
       "$container_id": {
-        // a valid container must have attributes "owner", "parent", and "name"
-        ".validate": "newData.hasChildren(['owner', 'parent', 'name'])",
-        "owner": {
-          ".validate": "root.child('/users/' + newData.val()).exists()"
+        // a valid container must have attributes "owners", "parent", and "name"
+        ".validate": "newData.hasChildren(['owners', 'parent', 'name'])",
+        "owners": {
+          "$owner_id": {
+            ".validate": "root.child('/users/' + $owner_id).exists() && newData.val() === true"
+          }
         },
         "name": {
           ".validate": "newData.isString()"
