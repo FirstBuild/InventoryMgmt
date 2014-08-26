@@ -6,7 +6,7 @@ https://firstbuild.com/firstbuild/inventory-management-platform/.
 We have reserved this repository to store code and documentation that applies to Inventory Management across the board. Our intention is for individual components to create their own repository with a naming standard of **InventoryMgmt-\<component name\>** that will host the code for that specific *component*.
 
 ## Overview
-Our initial focus was on delivering the shared infrastructure components that would support and facilitate a grand concept of Inventory Management for the home. Our plan was to deliver a first pass offering for this shared infrastruture with the intention of the community developing the true functionality around Inventory Management. We have called these community developed functionality **components**. These components leverage the centralized infrastructure to build an Inventory Management ecosystem driven by the community. Below is a high-level diagram of our vision:
+Our initial focus was on delivering the shared infrastructure components that would support and facilitate a grand concept of Inventory Management for the home. Our plan was to deliver a first pass offering for this shared infrastructure with the intention of the community developing the true functionality around Inventory Management. We have called these community developed functionalities **components**. These components leverage the centralized infrastructure to build an Inventory Management ecosystem driven by the community. Below is a high-level diagram of our vision:
 
 ![Output Map](https://raw.githubusercontent.com/FirstBuild/InventoryMgmt/master/images/Inventory-Management-High-Level.jpg)
 
@@ -28,7 +28,7 @@ As our first responsibility was to deliver the infrastructure to support Invento
     4. Excellent documentation and tutorials to help developers get started
 
 ###### Note
-> We have designed the infrastructure to push the intelligence to the components. We designed it this way in order to provide infrastructure that could support a very broad use-case of Inventory Management that hopefully in the future will extend into areas that we can’t predict today. We debated on whether we should provide an intelligent API that allowed the clients to stay fairly dumb, but kept coming back to the need for the infrastructure to stay very general to support the broad use case and adapt to any component.
+> We have designed the infrastructure to push the intelligence to the components. We designed it this way in order to provide infrastructure that could support a very broad use case of Inventory Management that hopefully in the future will extend into areas that we can’t predict today. We debated on whether we should provide an intelligent API that allowed the clients to stay fairly dumb, but kept coming back to the need for the infrastructure to stay very general to support the broad use case and adapt to any component.
 
 ### Firebase
 
@@ -45,21 +45,50 @@ After reviewing several technologies, we landed on [Firebase](https://www.fireba
 The remainder of this document is not intended to teach the specifics of Firebase or the Firebase API. We will be digging into some of the logical constructs we have formulated on top of Firebase, but it does assume some working knowledge of Firebase. We found their [tutorials](https://www.firebase.com/docs/web/quickstart.html) as the best place to begin learning Firebase.
 
 ### Data model  
-Our data model is broken into *containers* and *objects*. *Containers* may contain other *containers* and or *objects*. Note that *container* nesting is logical, not literal. All *container* instances will exist directly under the *containers* node in Firebase. *Objects* must exist in one, and only one, *container*.
+Our data model is broken into *users*, *containers* and *objects*. The *users* node of the Firebase tree is for storing user profile information. *Containers* may contain other *containers* and or *objects*. Note that *container* nesting is logical, not literal. All *container* instances will exist directly under the *containers* node in Firebase. Each user will have one *rootContainer* created at user registration time. This is the entry point for that user into the *containers* logical tree. *Objects* must exist in one, and only one, *container*.
+
+#### Users
+The *users* node of the Firebase tree holds user profile information. At present this is limited to things like *displayName*, *provider*, and *email*. It also contains a *rootContainer* attribute which points to a single container in the *containers* node. This *rootContainer* must be created before the *users* node, as we validate that the *rootContainer* node exists before allowing the *users* node to be written. The *users* node may only be read or written by the logged-in user. Here are the security rules for a *users* node:
+```json
+"users": {
+  "$userId": {
+    ".read": "$userId === auth.uid",
+    // grants write access to the owner of this user account
+    // whose uid must exactly match the key ($user_id)
+    ".write": "$userId === auth.uid",
+    ".validate": "newData.hasChildren(['provider', 'displayName', 'rootContainer'])",
+    "displayName": {
+      ".validate": "newData.isString()"
+    },
+    "email": {
+      ".validate": "newData.val() === auth.email"
+    },
+    "provider": {
+      ".validate": "newData.val() == 'password'"
+    },
+    "rootContainer": {
+        ".validate": "root.child('containers/' + newData.val()).exists()"
+    }
+  }
+}
+```
 
 #### Containers
-The *containers* node of the Firebase tree holds data about all *container* instances in the Inventory Management system. Each instance will exist directly below the *containers* node in the tree, regardless of whether it's a top-level container or a child of another container. The Firebase security rules for a container are as follows:
+The *containers* node of the Firebase tree holds data about all *container* instances in the Inventory Management system. Each instance will exist directly below the *containers* node in the tree, regardless of whether it's a top-level container (a *rootContainer* referenced from a user's profile) or a child of another container. The Firebase security rules for a container are as follows:
 ```json
 "containers": {
   ".read": "auth !== null",
   // haven't locked down writes yet, but you do need to be authenticated
   ".write": "auth !== null",
-  "$container_id": {
+  "$containerId": {
     // a valid container must have attributes "owners", "parent", and "name"
     ".validate": "newData.hasChildren(['owners', 'parent', 'name'])",
     "owners": {
-      "$owner_id": {
-        ".validate": "root.child('users/' + $owner_id).exists() && newData.val() === true"
+      "$ownerId": {
+        // allow creation of a root container without a valid owners entry
+        // as each user requires a root container and it would create a
+        // circular dependency if each required the other
+        ".validate": "(newData.parent().parent().child('parent').val() === false) || (root.child('/users/' + $ownerId).exists() && newData.val() === true)"
       }
     },
     "name": {
@@ -70,29 +99,29 @@ The *containers* node of the Firebase tree holds data about all *container* inst
     },
     // optional attributes below
     "children": {
-      "$child_id": {
-        ".validate": "root.child('containers/' + $child_id).exists()"
+      "$childId": {
+        ".validate": "root.child('containers/' + $childId).exists()"
       }
     },
     "description": {
       ".validate": "newData.isString() || newData.val() === null"
     },
     "objects": {
-      "$object_id": {
-        ".validate": "root.child('objects/' + $object_id).exists() && newData.val() === true"
+      "$objectId": {
+        ".validate": "root.child('objects/' + $objectId).exists() && newData.val() === true"
       }
     }
   }
 }
 ```
-As you can see from the above, each *containers* instance must have children (attributes) of `owners`, `parent`, and `name`. Optional attributes include `description`, which must be a string if present, `children`, which must point to valid *container* instances if specified, and *objects*, which contains an index of contained objects (each of which must exist). At present we do not limit other attributes from being added to a *containers* instance.
+As you can see from the above, each *containers* instance must have children (attributes) of `owners`, `parent`, and `name`. Optional attributes include `description`, which must be a string if present, `children`, which must point to valid *container* instances if specified, and *objects*, which contains an index of contained objects (each of which must exist). At present we do not limit other attributes from being added to a *containers* instance. Any *owners* listed for a container must exist, except if this is a newly-created *rootContainer*, which must be created before its corresponding *users* entry can be written.
 
-An example of a *containter* may be a grocery list, which has a parent *container* of a refrigerator, which has a parent *container* of a home. Note that the grocery list has multiple owners, so either user would be able to add items to the list. This would be represented as follows:
+An example of a *container* may be a grocery list, which has a parent *container* of a refrigerator, which has a parent *container* of a home. Note that the grocery list has multiple owners, so either user would be able to add items to the list. This would be represented as follows:
 ```json
 {
   "containers" : {
     "-JUApyasdkfj34r90da4" : {  
-      "name" : "Ryan's Home",
+      "name" : "simplelogin:2_root",
       "owners" : {
         "simplelogin:2" : true
       },
@@ -161,13 +190,25 @@ If you were to create a web based grocery list, this would be a *component* in t
 ```json
 {
   "containers" : {
-    "-JUApygMasdbiSlvV-0b" : {  # unique key generated by a firebase Push
-      "name" : "Ryan's Grocery List",
+    "-JUApygMzgusoiSlvV-0" : {  # unique key generated by a firebase Push
+      "name" : "simplelogin:1_root",
       "owners" : {
-        "simplelogin:2" : true # owner of this container. this is a reference to a child in the /users node
+        "simplelogin:1" : true # owner of this container. this is a reference to a child in the /users node
       },
       "parent" : false, # If this container has a parent container, this will be the unique ID of that parent container
-      "objects" : { # objects in this container act as a reference to the actual object data
+      "description" : "root container",
+      "children" : {
+        "-JUApygMasdbiSlvV-0b" : true
+      }
+    }
+    "-JUApygMasdbiSlvV-0b" : {
+      "name" : "Ryan's Grocery List",
+      "owners" : {
+        "simplelogin:1" : true,
+        "simplelogin:2" : true # A non-root container may be shared (have multiple owners) - simplelogin:2 must exist!
+      },
+      "parent" : "-JUApygMzgusoiSlvV-0",
+      "objects" : { # keys in this node act as a reference to the actual object data
         "-JUAwerASDvas-1g12j" : true,
         "-JUG7T_C4iVFZMMPjCB0" : true
       }
@@ -177,22 +218,23 @@ If you were to create a web based grocery list, this would be a *component* in t
     "-JUAwerASDvas-1g12j" : { # unique key generated by a firebase Push
       "checked" : false, # data representing the completion of an item
       "container" : "-JUApygMasdbiSlvV-0b", # the container that references this object
-      "data" : "One Dozen Eggs" # item data
+      "data" : { # item data as an object
+        "description" : "Eggs",
+        "quantity": 12
+      }
     },
     "-JUG7T_C4iVFZMMPjCB0" : {
       "checked" : false,
       "container" : "-JUApygMasdbiSlvV-0b",
-      "data" : "Milk"
+      "data" : "Milk" # data can be a scalar, too - the client would need to recognize the difference
     }
   },
   "users" : { # a node representing a user
     "simplelogin:1" : {
       "displayName" : "person@example.com",
       "provider" : "password",
-      "provider_id" : "1",
-      "root_containers" : {
-        "-JUApygMasdbiSlvV-0b" : true # this users root container
-      }
+      "providerId" : "1",
+      "rootContainer" : "-JUApygMasdbiSlvV-0b" # this user's root container
     }
   }
 }
@@ -226,7 +268,7 @@ After adding a new node to the *objects* tree, the *component* needs to update t
 "containers" : {
   "-JUApygMasdbiSlvV-0b" : {
     "name" : "sample container",
-    "parent": false,
+    "parent": "-JUApygMzgusoiSlvV-0",
     "owners" : {
       "simplelogin:2" : true
     }
@@ -271,9 +313,10 @@ After the item was inserted as an object, Grocery List would then need to refere
   "-JUApygMasdbiSlvV-0b" : {  # unique key generated by a firebase Push
     "name" : "Ryan's Grocery List",
     "owners" : {
-      "simplelogin:2" : true # owner of this container. this is a reference to a child in the /users node
+      "simplelogin:1" : true,
+      "simplelogin:2" : true
     }
-    "parent" : false, # If this container has a parent container, this will be the unique ID of that parent container
+    "parent" : "-JUApygMzgusoiSlvV-0",
     "objects" : { # objects in this container act as a reference to the actual object data
       "-JUAwerASDvas-1g12j" : true,
       "-JUG7T_C4iVFZMMPjCB0" : true,
@@ -282,5 +325,20 @@ After the item was inserted as an object, Grocery List would then need to refere
   }
 }
 ```
+Alternately, these additional fields could be part of a `data` object instead of additional children of the *objects* child (nesting them one level deeper). This is at the discretion of the *component* developer, but the developer will need to handle validation of these objects as the Inventory Management platform only requires that the `data` child exist.
+```json
+"objects" : {
+  "-JUAwerASDvas-1g12j" : { # unique key generated by a firebase Push
+    "checked" : false, # data representing the completion of an item
+    "container" : "-JUApygMasdbiSlvV-0b", # the container that references this object
+    "data" : {
+      "description" : "Eggs",
+      "quantity" : 12,
+      "brand" : "Mary's Cage-Free Organic"
+    }
+  }
+  // ...
+}
+```
 
-To remove an item from the Grocery List, the *component* would need to remove the object from the objects node and remove the reference from the Users Grocery List Container
+To remove an item from the Grocery List, the *component* would need to remove the object from the objects node and remove the reference from the User's Grocery List Container

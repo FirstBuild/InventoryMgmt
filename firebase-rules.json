@@ -1,12 +1,12 @@
 {
   "rules": {
     "users": {
-      "$user_id": {
-        ".read": "$user_id === auth.uid",
+      "$userId": {
+        ".read": "$userId === auth.uid",
         // grants write access to the owner of this user account
         // whose uid must exactly match the key ($user_id)
-        ".write": "$user_id === auth.uid",
-        ".validate": "newData.hasChildren(['provider', 'displayName'])",
+        ".write": "$userId === auth.uid",
+        ".validate": "newData.hasChildren(['provider', 'displayName', 'rootContainer'])",
         "displayName": {
           ".validate": "newData.isString()"
         },
@@ -16,10 +16,8 @@
         "provider": {
           ".validate": "newData.val() == 'password'"
         },
-        "root_containers": {
-          "$container": {
-            ".validate": "newData.val() === true && root.child('containers/' + $container).exists()"
-          }
+        "rootContainer": {
+            ".validate": "root.child('containers/' + newData.val()).exists()"
         }
       }
     },
@@ -27,12 +25,15 @@
       ".read": "auth !== null",
       // haven't locked down writes yet, but you do need to be authenticated
       ".write": "auth !== null",
-      "$container_id": {
+      "$containerId": {
         // a valid container must have attributes "owners", "parent", and "name"
         ".validate": "newData.hasChildren(['owners', 'parent', 'name'])",
         "owners": {
-          "$owner_id": {
-            ".validate": "root.child('/users/' + $owner_id).exists() && newData.val() === true"
+          "$ownerId": {
+            // allow creation of a root container without a valid owners entry
+            // as each user requires a root container and it would create a
+            // circular dependency if each required the other
+            ".validate": "(newData.parent().parent().child('parent').val() === false) || (root.child('/users/' + $ownerId).exists() && newData.val() === true)"
           }
         },
         "name": {
@@ -43,16 +44,16 @@
         },
         // optional attributes below
         "children": {
-          "$child_id": {
-            ".validate": "root.child('containers/' + $child_id).exists()"
+          "$childId": {
+            ".validate": "root.child('containers/' + $childId).exists()"
           }
         },
         "description": {
           ".validate": "newData.isString() || newData.val() === null"
         },
         "objects": {
-          "$object_id": {
-            ".validate": "root.child('objects/' + $object_id).exists() && newData.val() === true"
+          "$objectId": {
+            ".validate": "root.child('objects/' + $objectId).exists() && newData.val() === true"
           }
         }
       }
@@ -61,7 +62,7 @@
       ".read": "auth !== null",
       // haven't locked down writes yet, but you do need to be authenticated
       ".write": "auth !== null",
-      "$object_id": {
+      "$objectId": {
         // a valid container must have attributes "container" and "data"
         ".validate": "newData.hasChildren(['container', 'data'])",
         "container": {
