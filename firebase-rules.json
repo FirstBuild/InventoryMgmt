@@ -25,16 +25,14 @@
       ".read": "auth !== null",
       // haven't locked down writes yet, but you do need to be authenticated
       ".write": "auth !== null",
-      "$containerId": {
-        // a valid container must have attributes "owners", "parent", and "name"
-        ".validate": "newData.hasChildren(['owners', 'parent', 'name'])",
-        "owners": {
-          "$ownerId": {
-            // allow creation of a root container without a valid owners entry
-            // as each user requires a root container and it would create a
-            // circular dependency if each required the other
-            ".validate": "(newData.parent().parent().child('parent').val() === false) || (root.child('/users/' + $ownerId).exists() && newData.val() === true)"
-          }
+      "$container_id": {
+        // a valid container must have attributes "owner", "parent", and "name"
+        ".validate": "newData.hasChildren(['owner', 'parent', 'name'])",
+        "owner": {
+          // allow creation of a root container without a valid owner entry
+          // as each user requires a root container and it would create a
+          // circular dependency if each required the other
+          ".validate": "(newData.parent().child('parent').val() === false) ||root.child('/users/' + newData.val()).exists()"
         },
         "name": {
           ".validate": "newData.isString()"
