@@ -181,6 +181,21 @@ The Firebase URI for this datastore is
 https://flickering-fire-3648.firebaseio.com/. Please contact jburks725 if you
 need developer access to this Firebase app.
 
+### Example Data
+If you have your own firebase account and would like to upload example data representing our data model, you can import this [json](https://github.com/FirstBuild/InventoryMgmt/blob/master/example/example_data_firebase.json) into your firebase app. You will likely want to change the user json:
+```json
+"users" : {
+    "simplelogin:1" : {
+      "displayName" : "User",
+      "email" : "email@example.com",
+      "provider" : "password",
+      "provider_id" : "1",
+      "rootContainer" : "-JUApWC5RZF-LgQmoUxd"
+    }
+  }
+```
+to reflect your account information
+
 ## Components
 The components are what get developed by the community to build up the true functionality around Inventory Management. A component should be a self-contained piece of functionality that plugs into the larger inventory management ecosystem by leveraging Firebase as the data store. Below, we will look to provide some example components:
 
