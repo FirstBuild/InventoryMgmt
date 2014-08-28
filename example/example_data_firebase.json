@@ -7,9 +7,7 @@
       },
       "description" : "root container",
       "name" : "simplelogin:1_root",
-      "owners" : {
-        "simplelogin:1" : true
-      },
+      "owner" : "simplelogin:1",
       "parent" : false
     },
     "-JUApygMasdbiSlvV-0b" : {
@@ -23,25 +21,19 @@
         "-JUeSheuQZ0pK_GA3fRp" : true,
         "-JUeT_Ntx8e45CVWnlra" : true
       },
-      "owners" : {
-        "simplelogin:1" : true
-      },
+      "owner" : "simplelogin:1",
       "parent" : "-JUApWC5RZF-LgQmoUxd"
     },
     "-JUApygMzgusoiSlvV-0" : {
       "description" : "Refrigerator container",
       "name" : "My Fridge",
-      "owners" : {
-        "simplelogin:1" : true
-      },
+      "owner" : "simplelogin:1",
       "parent" : "-JUApygMzgusoiSlva-1"
     },
     "-JUApygMzgusoiSlva-1" : {
       "description" : "House container",
       "name" : "Users Home",
-      "owners" : {
-        "simplelogin:1" : true
-      },
+      "owner" : "simplelogin:1",
       "parent" : "-JUApWC5RZF-LgQmoUxd"
     }
   },
