@@ -3,7 +3,8 @@
     "-JUApWC5RZF-LgQmoUxd" : {
       "children" : {
         "-JUApygMasdbiSlvV-0b" : true,
-        "-JUApygMzgusoiSlva-1" : true
+        "-JUApygMzgusoiSlva-1" : true,
+        "-JUApygMzgusoiSlvV-0" : true
       },
       "description" : "root container",
       "name" : "simplelogin:1_root",
@@ -28,7 +29,7 @@
       "description" : "Refrigerator container",
       "name" : "My Fridge",
       "owner" : "simplelogin:1",
-      "parent" : "-JUApygMzgusoiSlva-1"
+      "parent" : "-JUApWC5RZF-LgQmoUxd"
     },
     "-JUApygMzgusoiSlva-1" : {
       "description" : "House container",
