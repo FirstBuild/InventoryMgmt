@@ -5,14 +5,14 @@
         "-JUApygMzgusoiSlvV-0" : true
       },
       "description" : "root container",
-      "name" : "simplelogin:1_root",
-      "owner" : "simplelogin:1",
+      "name" : "simplelogin:18_root",
+      "owner" : "simplelogin:18",
       "parent" : false
     },
     "-JUApWC5RZF-LgQmoUxe" : {
       "description" : "root container",
-      "name" : "simplelogin:2_root",
-      "owner" : "simplelogin:2",
+      "name" : "simplelogin:19_root",
+      "owner" : "simplelogin:19",
       "parent" : false,
       "children" : {
         "-JUApygMzgusoiSlvV-1" : true
@@ -23,8 +23,9 @@
     },
     "-JUApygMzgusoiSlvV-0" : {
       "description" : "Refrigerator container",
+      "compType" : "refrigerator",
       "name" : "Refrigerator",
-      "owner" : "simplelogin:1",
+      "owner" : "simplelogin:18",
       "parent" : "-JUApWC5RZF-LgQmoUxd",
       "objects" : {
         "spot1" : "-JUAwerASDvas-1g12j",
@@ -33,8 +34,9 @@
     },
     "-JUApygMzgusoiSlvV-1" : {
       "description" : "User1 Consumed Container",
+      "compType" : "consumedList",
       "name" : "User1 Consumed Container",
-      "owner" : "simplelogin:2",
+      "owner" : "simplelogin:19",
       "parent" : "-JUApWC5RZF-LgQmoUxe",
       "objects" : {
       }
@@ -42,12 +44,16 @@
   },
   "objects" : {
     "-JUAwerASDvas-1g12j" : {
+      "created_at" : 1414444662,
+      "updated_at" : null,
       "container" : "-JUApygMzgusoiSlvV-0",
       "consumed" : false,
       "consumer" : "",
       "data" : "Westvleteren 12"
     },
     "-JUG7T_C4iVFZMMPjCB0" : {
+      "created_at" : 1414444662,
+      "updated_at" : null,
       "container" : "-JUApygMzgusoiSlvV-0",
       "consumed" : false,
       "consumer" : "",
@@ -55,18 +61,18 @@
     }
   },
   "users" : {
-    "simplelogin:1" : {
+    "simplelogin:18" : {
       "displayName" : "Organization User",
       "email" : "org@example.com",
       "provider" : "password",
-      "provider_id" : "1",
+      "provider_id" : "18",
       "rootContainer" : "-JUApWC5RZF-LgQmoUxd"
     },
-    "simplelogin:2" : {
+    "simplelogin:19" : {
       "displayName" : "User1",
       "email" : "user1@example.com",
       "provider" : "password",
-      "provider_id" : "2",
+      "provider_id" : "19",
       "rootContainer" : "-JUApWC5RZF-LgQmoUxe"
     }
   }
