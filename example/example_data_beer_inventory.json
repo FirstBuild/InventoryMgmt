@@ -1,0 +1,77 @@
+{
+  "containers" : {
+    "-JUApWC5RZF-LgQmoUxd" : {
+      "children" : {
+	"-JUApygMasdbiSlvV-0b" : true,
+	"-JUApygMzgusoiSlva-1" : true,
+	"-JUApygMzgusoiSlvV-0" : true
+      },
+      "description" : "root container",
+      "name" : "simplelogin:1_root",
+      "owner" : "simplelogin:1",
+      "parent" : false
+    },
+    "-JUApygMasdbiSlvV-0b" : {
+      "compType" : "grocery",
+      "description" : "An example grocery list",
+      "name" : "My Grocery List",
+      "objects" : {
+	"-JUAwerASDvas-1g12j" : true,
+	"-JUG7T_C4iVFZMMPjCB0" : true,
+	"-JUPR0URP0kRtwB444a8" : true,
+	"-JUeSheuQZ0pK_GA3fRp" : true,
+	"-JUeT_Ntx8e45CVWnlra" : true
+      },
+      "owner" : "simplelogin:1",
+      "parent" : "-JUApWC5RZF-LgQmoUxd"
+    },
+    "-JUApygMzgusoiSlvV-0" : {
+      "description" : "Refrigerator container",
+      "name" : "My Fridge",
+      "owner" : "simplelogin:1",
+      "parent" : "-JUApWC5RZF-LgQmoUxd"
+    },
+    "-JUApygMzgusoiSlva-1" : {
+      "description" : "House container",
+      "name" : "Users Home",
+      "owner" : "simplelogin:1",
+      "parent" : "-JUApWC5RZF-LgQmoUxd"
+    }
+  },
+  "objects" : {
+    "-JUAwerASDvas-1g12j" : {
+      "checked" : false,
+      "container" : "-JUApygMasdbiSlvV-0b",
+      "data" : "One dozen eggs"
+    },
+    "-JUG7T_C4iVFZMMPjCB0" : {
+      "checked" : false,
+      "container" : "-JUApygMasdbiSlvV-0b",
+      "data" : "Loaf of wheat bread"
+    },
+    "-JUPR0URP0kRtwB444a8" : {
+      "checked" : false,
+      "container" : "-JUApygMasdbiSlvV-0b",
+      "data" : "A pound of butter"
+    },
+    "-JUeSheuQZ0pK_GA3fRp" : {
+      "checked" : false,
+      "container" : "-JUApygMasdbiSlvV-0b",
+      "data" : "Orange juice"
+    },
+    "-JUeT_Ntx8e45CVWnlra" : {
+      "checked" : false,
+      "container" : "-JUApygMasdbiSlvV-0b",
+      "data" : "apple juice"
+    }
+  },
+  "users" : {
+    "simplelogin:1" : {
+      "displayName" : "User",
+      "email" : "email@example.com",
+      "provider" : "password",
+      "provider_id" : "1",
+      "rootContainer" : "-JUApWC5RZF-LgQmoUxd"
+    }
+  }
+}
