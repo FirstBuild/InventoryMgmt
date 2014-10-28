@@ -56,8 +56,10 @@
       "compType" : "beerminder_container",
       "name" : "Beerminder_firstbuild",
       "objects" : {
-        "-JUAwerASDvas-1g12j" : true,
-        "-JUG7T_C4iVFZMMPjCB0" : true
+        "beer":{
+          "-JUAwerASDvas-1g12j" : true,
+          "-JUG7T_C4iVFZMMPjCB0" : true
+        }
       },
       "parent" : "-JUApygMzgusoiSlvV-0"
     }
