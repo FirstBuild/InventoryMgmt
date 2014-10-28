@@ -1,0 +1,107 @@
+{
+  "containers" : {
+    "-3ucs1aya03" : {
+      "compType" : "milkminder_container",
+      "name" : "My MilkMinder",
+      "objects" : {
+        "-J_M7uoN2pjqP8I7LD3T" : true
+      }
+    },
+    "-JUApWC5RZF-LgQmoUxd" : {
+      "children" : {
+        "-JUApygMzgusoiSlvV-0" : true
+      },
+      "compType" : "orgRootContainer",
+      "description" : "root container",
+      "name" : "simplelogin:1_root",
+      "owner" : "simplelogin:1",
+      "parent" : false
+    },
+    "-JUApWC5RZF-LgQmoUxe" : {
+      "children" : {
+        "-JUApygMzgusoiSlvV-1" : true
+      },
+      "compType" : "userRootContainer",
+      "description" : "root container",
+      "name" : "simplelogin:2_root",
+      "organizations" : {
+        "-JUApWC5RZF-LgQmoUxd" : true
+      },
+      "owner" : "simplelogin:2",
+      "parent" : false
+    },
+    "-JUApygMzgusoiSlvV-0" : {
+      "compType" : "refrigerator",
+      "description" : "Refrigerator container",
+      "name" : "Refrigerator",
+      "objects" : {
+        "beerminder" : {
+          "-he6ke7hocc" : true
+        },
+        "milkminder" : {
+          "-3ucs1aya03" : true
+        }
+      },
+      "owner" : "simplelogin:1",
+      "parent" : "-JUApWC5RZF-LgQmoUxd"
+    },
+    "-JUApygMzgusoiSlvV-1" : {
+      "compType" : "consumedList",
+      "description" : "User1 Consumed Container",
+      "name" : "User1 Consumed Container",
+      "owner" : "simplelogin:2",
+      "parent" : "-JUApWC5RZF-LgQmoUxe"
+    },
+    "-he6ke7hocc" : {
+      "compType" : "beerminder_container",
+      "name" : "Beerminder_firstbuild",
+      "objects" : {
+        "-JUAwerASDvas-1g12j" : true,
+        "-JUG7T_C4iVFZMMPjCB0" : true
+      },
+      "parent" : "-JUApygMzgusoiSlvV-0"
+    }
+  },
+  "objects" : {
+    "-JUAwerASDvas-1g12j" : {
+      "consumed" : false,
+      "consumer" : "",
+      "container" : "-he6ke7hocc",
+      "data" : "Bud Light",
+      "type" : "beer"
+    },
+    "-JUG7T_C4iVFZMMPjCB0" : {
+      "consumed" : true,
+      "consumer" : "simplelogin:2",
+      "container" : "-he6ke7hocc",
+      "data" : "Magic Hat",
+      "type" : "beer"
+    },
+    "-J_M7uoN2pjqP8I7LD3T" : {
+      "container" : "-JUApygMzgusoiSlvV-0",
+      "name" : "MilkMinder",
+      "type" : "milkminder",
+      "weight" : 15
+    }
+  },
+  "schemas" : {
+    "beerminder" : "status,count",
+    "milkscale" : "status,weight"
+  },
+  "users" : {
+    "simplelogin:1" : {
+      "displayName" : "Organization User",
+      "email" : "org@example.com",
+      "provider" : "password",
+      "provider_id" : "1",
+      "rootContainer" : "-JUApWC5RZF-LgQmoUxd"
+    },
+    "simplelogin:2" : {
+      "displayName" : "User1",
+      "email" : "user1@example.com",
+      "provider" : "password",
+      "provider_id" : "2",
+      "rootContainer" : "-JUApWC5RZF-LgQmoUxe"
+    }
+  }
+}
