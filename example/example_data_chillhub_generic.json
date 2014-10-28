@@ -3,8 +3,10 @@
     "-3ucs1aya03" : {
       "compType" : "milkminder_container",
       "name" : "My MilkMinder",
-      "objects" : {
-        "-J_M7uoN2pjqP8I7LD3T" : true
+      "objects" :{ 
+        "milkminder":{
+          "-J_M7uoN2pjqP8I7LD3T" : true
+        }
       }
     },
     "-JUApWC5RZF-LgQmoUxd" : {
