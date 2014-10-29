@@ -1,79 +1,105 @@
 {
   "containers" : {
+    "-3ucs1aya03" : {
+      "containerType" : "milkminder_container", // change key from compType to containerType
+      "name" : "My MilkMinder",
+      "objects" :{
+        "-J_M7uoN2pjqP8I7LD3T" : "milkminder" //changed value from true to the object Type
+      }
+    },
     "-JUApWC5RZF-LgQmoUxd" : {
-      "children" : {
-        "-JUApygMzgusoiSlvV-0" : true
+      "containers" : { //modified this key from children to containers
+        "-JUApygMzgusoiSlvV-0" : "refrigerator" //the key is the container reference and the value is the containerType. So here, we can decipher that this has a refrigerator "device"
       },
+      "containerType" : "orgRootContainer", // change key from compType to containerType
       "description" : "root container",
-      "name" : "simplelogin:18_root",
-      "owner" : "simplelogin:18",
+      "name" : "simplelogin:1_root",
+      "owner" : "simplelogin:1",
       "parent" : false
     },
     "-JUApWC5RZF-LgQmoUxe" : {
-      "description" : "root container",
-      "name" : "simplelogin:19_root",
-      "owner" : "simplelogin:19",
-      "parent" : false,
-      "children" : {
-        "-JUApygMzgusoiSlvV-1" : true
+      "containers" : { //modified this key from children to containers
+        "-JUApygMzgusoiSlvV-1" : "consumedList" //the key is the container reference and the value is the containerType. So here, we can decipher that this has a consumerList
       },
+      "containerType" : "userRootContainer", // change key from compType to containerType
+      "description" : "root container",
+      "name" : "simplelogin:2_root",
       "organizations" : {
-       "-JUApWC5RZF-LgQmoUxd" : true
-      }
+        "-JUApWC5RZF-LgQmoUxd" : "orgRootContainer" //the key is the container reference and the value is the containerType. So here, we can decipher that this is a member of an organization
+      },
+      "owner" : "simplelogin:2",
+      "parent" : false
     },
     "-JUApygMzgusoiSlvV-0" : {
+      "containerType" : "refrigerator", // change key from compType to containerType
       "description" : "Refrigerator container",
-      "compType" : "refrigerator",
       "name" : "Refrigerator",
-      "owner" : "simplelogin:18",
-      "parent" : "-JUApWC5RZF-LgQmoUxd",
-      "objects" : {
-        "spot1" : "-JUAwerASDvas-1g12j",
-        "spot2" : "-JUG7T_C4iVFZMMPjCB0"
-      }
+      "containers" : { //changed from objects to containers, since it references sub containers
+        "-he6ke7hocc" : "beerminder_container", //the key is the container reference and the value is the containerType. So here, we can decipher that this has a beerminder "device"
+        "-3ucs1aya03" : "milkminder_container" //the key is the container reference and the value is the containerType. So here, we can decipher that this has a milkminder "device"
+      },
+      "owner" : "simplelogin:1",
+      "parent" : "-JUApWC5RZF-LgQmoUxd"
     },
     "-JUApygMzgusoiSlvV-1" : {
+      "containerType" : "consumedList", // change key from compType to containerType
       "description" : "User1 Consumed Container",
-      "compType" : "consumedList",
       "name" : "User1 Consumed Container",
-      "owner" : "simplelogin:19",
-      "parent" : "-JUApWC5RZF-LgQmoUxe",
+      "owner" : "simplelogin:2",
+      "parent" : "-JUApWC5RZF-LgQmoUxe"
+    },
+    "-he6ke7hocc" : {
+      "containerType" : "beerminder_container", // change key from compType to containerType
+      "name" : "Beerminder_firstbuild",
       "objects" : {
-      }
+        "-JUAwerASDvas-1g12j" : "beer", //changed value from true to the object Type
+        "-JUG7T_C4iVFZMMPjCB0" : "beer" //changed value from true to the object Type
+      },
+      "parent" : "-JUApygMzgusoiSlvV-0"
     }
   },
   "objects" : {
     "-JUAwerASDvas-1g12j" : {
-      "created_at" : 1414444662,
-      "updated_at" : null,
-      "container" : "-JUApygMzgusoiSlvV-0",
       "consumed" : false,
       "consumer" : "",
-      "data" : "Westvleteren 12"
+      "container" : "-he6ke7hocc",
+      "data" : "Bud Light",
+      "type" : "beer"
     },
     "-JUG7T_C4iVFZMMPjCB0" : {
-      "created_at" : 1414444662,
-      "updated_at" : null,
+      "consumed" : true,
+      "consumer" : "simplelogin:2",
+      "container" : "-he6ke7hocc",
+      "data" : "Magic Hat",
+      "type" : "beer"
+    },
+    "-J_M7uoN2pjqP8I7LD3T" : {
       "container" : "-JUApygMzgusoiSlvV-0",
-      "consumed" : false,
-      "consumer" : "",
-      "data" : "Founders Kentucky Breakfast Stout"
+      "name" : "MilkMinder",
+      "type" : "milkminder",
+      "weight" : 15
     }
   },
+  "schemas" : {
+    "beerminder" : "status,count",
+    "milkscale" : "status,weight"
+  },
   "users" : {
-    "simplelogin:18" : {
+    "simplelogin:1" : {
       "displayName" : "Organization User",
       "email" : "org@example.com",
       "provider" : "password",
-      "provider_id" : "18",
-      "rootContainer" : "-JUApWC5RZF-LgQmoUxd"
+      "provider_id" : "1",
+      "rootContainer" : "-JUApWC5RZF-LgQmoUxd",
+      "userType":"organization"
     },
-    "simplelogin:19" : {
+    "simplelogin:2" : {
       "displayName" : "User1",
       "email" : "user1@example.com",
       "provider" : "password",
-      "provider_id" : "19",
-      "rootContainer" : "-JUApWC5RZF-LgQmoUxe"
+      "provider_id" : "2",
+      "rootContainer" : "-JUApWC5RZF-LgQmoUxe",
+      "userType":"member"
     }
   }
 }
