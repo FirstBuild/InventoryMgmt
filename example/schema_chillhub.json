@@ -1,0 +1,43 @@
+{
+    containers:{
+        $container:{
+            description: String,
+            name: String,
+            owner: String,                       // SimpleLogin username that owns the container
+            parent: String,                      // ID of parent container
+            containerType: String,               // Type of container
+            containers:{                         // Array of containers children of this
+                $containerId: $containerType     // $containerType is equal to the containerType of the container we are referencing
+            },
+            organizations:{                      // The organization it belongs to
+                $containerId: $containerType
+            },
+            objects:{                            // All the objects (devices) connect to this container
+                $objectId: $objectType           // "SDFkja304-v":"beer"
+            }
+        }
+    },
+    objects:{
+        $object:{
+            consumed: Boolean,                   // Status if the object was consumed
+            consumer: String,                    // SimpleLogin Id of the consumer
+            name: String,                        // Name of the object
+            type: String,                        // Type of object
+            container: String,                   // ContainerId of where the object is registered
+            //Other values could be added depending on the object type
+        }
+    },
+    schemas:{
+        $objectType: String,             // List of values monitored for an objectType (beerminder, milkminder)
+    },
+    users:{
+        $user:{
+            displayName:String,          // User's fullname
+            email: String,               // User's email
+            provider: String,            // Provider (facebook,google, password,...)
+            provider_id: String,         // Provider's ID
+            rootContainer: String,       // Container of type Root for the corresponsing user
+            userType: String             // User's type (Organization, Member,...)
+        }
+    }
+}
