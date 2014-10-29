@@ -1,59 +1,59 @@
 {
   "containers" : {
     "-3ucs1aya03" : {
-      "containerType" : "milkminder_container", // change key from compType to containerType
+      "containerType" : "milkminder_container", 
       "name" : "My MilkMinder",
       "objects" :{
-        "-J_M7uoN2pjqP8I7LD3T" : "milkminder" //changed value from true to the object Type
+        "-J_M7uoN2pjqP8I7LD3T" : "milkminder" 
       }
     },
     "-JUApWC5RZF-LgQmoUxd" : {
-      "containers" : { //modified this key from children to containers
-        "-JUApygMzgusoiSlvV-0" : "refrigerator" //the key is the container reference and the value is the containerType. So here, we can decipher that this has a refrigerator "device"
+      "containers" : { 
+        "-JUApygMzgusoiSlvV-0" : "refrigerator" 
       },
-      "containerType" : "orgRootContainer", // change key from compType to containerType
+      "containerType" : "orgRootContainer", 
       "description" : "root container",
       "name" : "simplelogin:1_root",
       "owner" : "simplelogin:1",
       "parent" : false
     },
     "-JUApWC5RZF-LgQmoUxe" : {
-      "containers" : { //modified this key from children to containers
-        "-JUApygMzgusoiSlvV-1" : "consumedList" //the key is the container reference and the value is the containerType. So here, we can decipher that this has a consumerList
+      "containers" : { 
+        "-JUApygMzgusoiSlvV-1" : "consumedList" 
       },
-      "containerType" : "userRootContainer", // change key from compType to containerType
+      "containerType" : "userRootContainer", 
       "description" : "root container",
       "name" : "simplelogin:2_root",
       "organizations" : {
-        "-JUApWC5RZF-LgQmoUxd" : "orgRootContainer" //the key is the container reference and the value is the containerType. So here, we can decipher that this is a member of an organization
+        "-JUApWC5RZF-LgQmoUxd" : "orgRootContainer" 
       },
       "owner" : "simplelogin:2",
       "parent" : false
     },
     "-JUApygMzgusoiSlvV-0" : {
-      "containerType" : "refrigerator", // change key from compType to containerType
+      "containerType" : "refrigerator", 
       "description" : "Refrigerator container",
       "name" : "Refrigerator",
-      "containers" : { //changed from objects to containers, since it references sub containers
-        "-he6ke7hocc" : "beerminder_container", //the key is the container reference and the value is the containerType. So here, we can decipher that this has a beerminder "device"
-        "-3ucs1aya03" : "milkminder_container" //the key is the container reference and the value is the containerType. So here, we can decipher that this has a milkminder "device"
+      "containers" : { 
+        "-he6ke7hocc" : "beerminder_container", 
+        "-3ucs1aya03" : "milkminder_container" 
       },
       "owner" : "simplelogin:1",
       "parent" : "-JUApWC5RZF-LgQmoUxd"
     },
     "-JUApygMzgusoiSlvV-1" : {
-      "containerType" : "consumedList", // change key from compType to containerType
+      "containerType" : "consumedList", 
       "description" : "User1 Consumed Container",
       "name" : "User1 Consumed Container",
       "owner" : "simplelogin:2",
       "parent" : "-JUApWC5RZF-LgQmoUxe"
     },
     "-he6ke7hocc" : {
-      "containerType" : "beerminder_container", // change key from compType to containerType
+      "containerType" : "beerminder_container", 
       "name" : "Beerminder_firstbuild",
       "objects" : {
-        "-JUAwerASDvas-1g12j" : "beer", //changed value from true to the object Type
-        "-JUG7T_C4iVFZMMPjCB0" : "beer" //changed value from true to the object Type
+        "-JUAwerASDvas-1g12j" : "beer", 
+        "-JUG7T_C4iVFZMMPjCB0" : "beer" 
       },
       "parent" : "-JUApygMzgusoiSlvV-0"
     }
