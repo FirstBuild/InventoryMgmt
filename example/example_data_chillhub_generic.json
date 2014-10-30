@@ -89,8 +89,25 @@
     }
   },
   "schemas" : {
-    "beerminder" : "status,count",
-    "milkscale" : "status,weight"
+    "beerminder" : {
+      "status":{
+        "contentType" : "U8",
+        "fieldName" : "status",
+        "messageType" : "0x50"
+      }
+    },
+    "milkscale" : {
+      "status":{
+        "contentType" : "U8",
+        "fieldName" : "status",
+        "messageType" : "0x50"
+      },
+      "weight":{
+        "contentType" : "U8",
+        "fieldName" : "weight",
+        "messageType" : "0x50"
+      }
+    }
   },
   "users" : {
     "simplelogin:1" : {
