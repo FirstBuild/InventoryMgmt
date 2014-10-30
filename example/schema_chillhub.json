@@ -28,7 +28,13 @@
         }
     },
     schemas:{
-        $objectType: String,             // List of values monitored for an objectType (beerminder, milkminder)
+        $objectType: {                           // List of devices (beerminder, milkminder)
+            $fieldName:{                         // List of values monitored for an objectType ex: status, weight
+                contentType: String,             // Type of content to be sent to Arduino ex: U8, U16
+                fieldName: String,               // Name of the field
+                messageType: String,             // Address where to send it on Arduino ex: 0x50,0x51
+            }
+        },             
     },
     users:{
         $user:{
